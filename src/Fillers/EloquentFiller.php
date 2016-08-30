@@ -83,10 +83,8 @@ class EloquentFiller implements FillerInterface
     {
         $instance = $model->newInstance([], $exists = true);
 
-        // fill the instance attributes with checking
-        $instance->unguard();
-        $instance->fill($attributes);
-        $instance->reguard();
+        // Set attributes raw because otherwise it will break packages which use magic relations like Translatable
+        $instance->setRawAttributes($attributes);
         // Load relations recursive
         $this->loadRelationsAttributesRecursive($instance);
 
